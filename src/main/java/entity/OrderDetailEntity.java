@@ -2,21 +2,23 @@ package entity;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class SupplyEntity {
+public class OrderDetailEntity {
     @EmbeddedId
-    private SupplyId id;
-    private Double unitCost;
+    private OrderDetailId id;
+    private Double unitPrice;
     private Integer qty;
+    private Double discount;
     private Double total;
-    private LocalDateTime dateAndTime;
+
+    @ManyToOne
+    private OrderEntity order;
 }

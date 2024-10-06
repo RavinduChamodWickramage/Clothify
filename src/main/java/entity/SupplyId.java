@@ -1,20 +1,20 @@
-package dto;
+package entity;
 
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
+@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Supply {
+@EqualsAndHashCode
+public class SupplyId implements Serializable {
     private String supplyId;
     private String productId;
     private String supplierId;
-    private Double unitCost;
-    private Integer qty;
-    private Double total;
-    private LocalDateTime dateAndTime;
 }
