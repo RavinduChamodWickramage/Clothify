@@ -1,4 +1,6 @@
 package service.custom;
 
-public interface StaffService {
+import service.SuperService;
+
+public interface StaffService extends SuperService {
 }

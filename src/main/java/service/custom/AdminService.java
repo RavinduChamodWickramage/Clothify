@@ -1,4 +1,6 @@
 package service.custom;
 
-public interface AdminService {
+import service.SuperService;
+
+public interface AdminService extends SuperService {
 }

@@ -109,11 +109,6 @@ public class AdminDashboardFormController {
     }
 
     @FXML
-    void btnReportOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
     void btnStaffManagementOnAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/staff_management_form.fxml"));
@@ -176,6 +171,11 @@ public class AdminDashboardFormController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void btnReportOnAction(ActionEvent event) {
+
     }
 
 }
