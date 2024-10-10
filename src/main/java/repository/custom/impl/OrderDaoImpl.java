@@ -1,4 +1,6 @@
 package repository.custom.impl;
 
-public class OrderDaoImpl {
+import repository.custom.OrderDao;
+
+public class OrderDaoImpl implements OrderDao {
 }

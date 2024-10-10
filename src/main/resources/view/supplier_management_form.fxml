@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierManagementFormController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierManagementFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#14222d" height="125.0" stroke="BLACK" strokeType="INSIDE" width="1000.0" />
       <Text fill="WHITE" layoutX="153.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff Management" textAlignment="CENTER">

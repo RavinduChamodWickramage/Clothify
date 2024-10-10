@@ -10,6 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import service.custom.AdminService;
+import service.custom.impl.AdminServiceImpl;
+import util.AlertUtil;
 
 import java.io.IOException;
 
@@ -29,6 +32,15 @@ public class AdminManageAccountFormController {
 
     @FXML
     private JFXTextField txtUsername;
+
+    private final AdminService adminService = new AdminServiceImpl();
+
+    public void setAdminDetails(String adminId, String username, String contactNumber, String password) {
+        txtAdminID.setText(adminId);
+        txtUsername.setText(username);
+        txtContactNumber.setText(contactNumber);
+        txtPassword.setText(password);
+    }
 
     @FXML
     void btnDashboardOnAction(ActionEvent event) {
@@ -51,7 +63,23 @@ public class AdminManageAccountFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        if (!txtPassword.getText().equals(txtRePassword.getText())) {
+            AlertUtil.showAlert("Password Mismatch", "Passwords do not match.", "Please ensure both password fields match.", javafx.scene.control.Alert.AlertType.ERROR);
+            return;
+        }
 
+        boolean isUpdated = adminService.updateAdminDetails(
+                txtAdminID.getText(),
+                txtUsername.getText(),
+                txtPassword.getText(),
+                txtContactNumber.getText()
+        );
+
+        if (isUpdated) {
+            AlertUtil.showAlert("Success", "Admin details updated successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
+        } else {
+            AlertUtil.showAlert("Update Failed", "Could not update admin details", null, javafx.scene.control.Alert.AlertType.ERROR);
+        }
     }
 
 }

@@ -1,4 +1,4 @@
 package repository;
 
-public interface CrudRepository {
+public interface CrudRepository <T> extends SuperDao{
 }

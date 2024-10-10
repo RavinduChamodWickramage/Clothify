@@ -1,4 +1,6 @@
 package service.custom.impl;
 
-public class ProductServiceImpl {
+import service.custom.ProductService;
+
+public class ProductServiceImpl implements ProductService {
 }

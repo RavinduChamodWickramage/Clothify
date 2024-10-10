@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.staff.StaffManageAccountFormController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.staff.StaffManageAccountFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#14222d" height="150.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
       <Text fill="WHITE" layoutX="83.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Account" textAlignment="CENTER">

@@ -4,6 +4,7 @@ import controller.order.OrderManagementFormController;
 import controller.product.ProductManagementFormController;
 import controller.supplier.SupplierManagementFormController;
 import controller.supply.SupplyManagementFormController;
+import entity.AdminEntity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +13,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import service.custom.AdminService;
+import service.custom.impl.AdminServiceImpl;
 
 import java.io.IOException;
 
 public class AdminDashboardFormController {
+
+    private final AdminService adminService = new AdminServiceImpl();
 
     @FXML
     private Text txtAdminUsername;
@@ -48,6 +53,12 @@ public class AdminDashboardFormController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/admin_manage_account_form.fxml"));
             Parent root = loader.load();
+
+            AdminManageAccountFormController controller = loader.getController();
+            String adminId = adminService.getAdminIdByUsername(txtAdminUsername.getText());
+            AdminEntity admin = adminService.findAdminById(adminId);
+            controller.setAdminDetails(admin.getAdminId(), admin.getUsername(), admin.getPhoneNumber(), admin.getPassword());
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Manage Account - Admin");

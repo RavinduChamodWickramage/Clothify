@@ -1,4 +1,6 @@
 package repository.custom.impl;
 
-public class SupplierDaoImpl {
+import repository.custom.SupplierDao;
+
+public class SupplierDaoImpl implements SupplierDao {
 }
