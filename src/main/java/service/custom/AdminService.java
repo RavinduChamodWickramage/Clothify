@@ -9,4 +9,5 @@ public interface AdminService extends SuperService {
     boolean updateAdminDetails(String text, String text1, String text2, String text3);
     String getAdminIdByUsername(String text);
     AdminEntity findAdminById(String adminId);
+    AdminEntity findAdminByUsername(String username);
 }

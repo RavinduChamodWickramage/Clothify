@@ -11,10 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import service.custom.AdminService;
 import service.custom.impl.AdminServiceImpl;
+import util.AdminSession;
+import util.AlertUtil;
 
 import java.io.IOException;
 
@@ -55,8 +58,7 @@ public class AdminDashboardFormController {
             Parent root = loader.load();
 
             AdminManageAccountFormController controller = loader.getController();
-            String adminId = adminService.getAdminIdByUsername(txtAdminUsername.getText());
-            AdminEntity admin = adminService.findAdminById(adminId);
+            AdminEntity admin = AdminSession.getInstance().getAdmin();
             controller.setAdminDetails(admin.getAdminId(), admin.getUsername(), admin.getPhoneNumber(), admin.getPassword());
 
             Stage stage = new Stage();
@@ -124,6 +126,11 @@ public class AdminDashboardFormController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/staff_management_form.fxml"));
             Parent root = loader.load();
+
+            StaffManagementFormController staffController = loader.getController();
+            AdminEntity admin = AdminSession.getInstance().getAdmin();
+            staffController.setLoggedAdminId(admin.getAdminId());
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Staff Management");

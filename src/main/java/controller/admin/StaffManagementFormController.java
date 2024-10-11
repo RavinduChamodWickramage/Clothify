@@ -1,9 +1,14 @@
 package controller.admin;
 
 import com.jfoenix.controls.JFXTextField;
+import entity.AdminEntity;
+import entity.StaffEntity;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,36 +17,39 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import service.custom.StaffService;
+import service.custom.impl.StaffServiceImpl;
+import util.AdminSession;
+import util.AlertUtil;
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class StaffManagementFormController {
-
-    @FXML
-    private TableColumn<?, ?> colAddress;
-
-    @FXML
-    private TableColumn<?, ?> colContact;
+public class StaffManagementFormController implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> colDOB;
-
+    private TableColumn<StaffEntity, String> colAddress;
     @FXML
-    private TableColumn<?, ?> colEmail;
-
+    private TableColumn<StaffEntity, String> colContact;
     @FXML
-    private TableColumn<?, ?> colFullName;
-
+    private TableColumn<StaffEntity, LocalDate> colDOB;
     @FXML
-    private TableColumn<?, ?> colNIC;
-
+    private TableColumn<StaffEntity, String> colEmail;
     @FXML
-    private TableColumn<?, ?> colSalary;
-
+    private TableColumn<StaffEntity, String> colFullName;
     @FXML
-    private TableColumn<?, ?> colStaffID;
+    private TableColumn<StaffEntity, String> colNIC;
+    @FXML
+    private TableColumn<StaffEntity, Double> colSalary;
+    @FXML
+    private TableColumn<StaffEntity, String> colStaffID;
 
     @FXML
     private DatePicker dateDOB;
@@ -50,7 +58,7 @@ public class StaffManagementFormController {
     private Label labelStaffID;
 
     @FXML
-    private TableView<?> tblStaffTable;
+    private TableView<StaffEntity> tblStaffTable;
 
     @FXML
     private JFXTextField txtAddress;
@@ -76,24 +84,107 @@ public class StaffManagementFormController {
     @FXML
     private TextField txtSearchField;
 
+    private final StaffService staffService = new StaffServiceImpl();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        String newStaffId = staffService.generateNewStaffId();
+        labelStaffID.setText(newStaffId);
+        loadStaffTable();
+    }
+
+    public void setLoggedAdminId(String adminId) {
+        txtID.setText(adminId);
+    }
+
+    private void loadStaffTable() {
+        colStaffID.setCellValueFactory(new PropertyValueFactory<>("staffId"));
+        colFullName.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("username"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colNIC.setCellValueFactory(new PropertyValueFactory<>("nic"));
+        colDOB.setCellValueFactory(new PropertyValueFactory<>("dob"));
+        colContact.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        List<StaffEntity> staffList = staffService.getAllStaffMembers();
+        ObservableList<StaffEntity> observableStaffList = FXCollections.observableArrayList(staffList);
+        tblStaffTable.setItems(observableStaffList);
+    }
+
     @FXML
     void btnAddOnAction(ActionEvent event) {
+        String staffId = labelStaffID.getText();
+        String email = txtEmail.getText();
+        String password = txtNIC.getText();
+        String fullName = txtFullName.getText();
+        String address = txtAddress.getText();
+        String contact = txtContact.getText();
+        String nic = txtNIC.getText();
+        LocalDate dob = dateDOB.getValue();
+        Double salary = Double.parseDouble(txtSalary.getText());
 
+        boolean isAdded = staffService.addStaff(staffId, email, password, fullName, address, contact, nic, dob, salary);
+
+        if (isAdded) {
+            AlertUtil.showAlert("Success", "Staff member added successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
+
+        } else {
+            AlertUtil.showAlert("Error", "Failed to add staff member", null, javafx.scene.control.Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String staffId = labelStaffID.getText();
+        boolean isDeleted = staffService.deleteStaff(staffId);
 
+        if (isDeleted) {
+            AlertUtil.showAlert("Success", "Staff member deleted successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
+        } else {
+            AlertUtil.showAlert("Error", "Failed to delete staff member", null, javafx.scene.control.Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
+        String staffId = txtSearchField.getText();
+        StaffEntity staff = staffService.findStaffById(staffId);
 
+        if (staff != null) {
+            labelStaffID.setText(staff.getStaffId());
+            txtFullName.setText(staff.getFullName());
+            txtEmail.setText(staff.getUsername());
+            txtAddress.setText(staff.getAddress());
+            txtNIC.setText(staff.getNic());
+            txtContact.setText(staff.getPhoneNumber());
+            txtSalary.setText(staff.getSalary().toString());
+            dateDOB.setValue(staff.getDob());
+        } else {
+            AlertUtil.showAlert("Error", "Staff member not found", null, javafx.scene.control.Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        String staffId = labelStaffID.getText();
+        String fullName = txtFullName.getText();
+        String email = txtEmail.getText();
+        String address = txtAddress.getText();
+        String contact = txtContact.getText();
+        String nic = txtNIC.getText();
+        LocalDate dob = dateDOB.getValue();
+        Double salary = Double.parseDouble(txtSalary.getText());
 
+        boolean isUpdated = staffService.updateStaff(staffId, email, null, fullName, address, contact, nic, dob, salary);
+
+        if (isUpdated) {
+            AlertUtil.showAlert("Success", "Staff member updated successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
+            clearTextFields();
+            loadStaffTable();
+        } else {
+            AlertUtil.showAlert("Error", "Failed to update staff member", null, javafx.scene.control.Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -101,6 +192,11 @@ public class StaffManagementFormController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/admin_dashboard_form.fxml"));
             Parent root = loader.load();
+
+            AdminDashboardFormController adminDashboardFormController = loader.getController();
+            AdminEntity admin = AdminSession.getInstance().getAdmin();
+            adminDashboardFormController.setAdminUsername(admin.getUsername());
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Manage Account - Admin");
@@ -117,6 +213,10 @@ public class StaffManagementFormController {
 
     @FXML
     void btnClearOnAction(ActionEvent event) {
+        clearTextFields();
+    }
+
+    private void clearTextFields() {
         txtSearchField.clear();
         txtFullName.clear();
         txtEmail.clear();
@@ -125,5 +225,28 @@ public class StaffManagementFormController {
         txtContact.clear();
         txtSalary.clear();
         dateDOB.setValue(null);
+
+        String newStaffId = staffService.generateNewStaffId();
+        labelStaffID.setText(newStaffId);
+    }
+
+    public void handleMouseClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getClickCount() == 2) {
+            StaffEntity selectedStaff = tblStaffTable.getSelectionModel().getSelectedItem();
+            if (selectedStaff != null) {
+                populateFields(selectedStaff);
+            }
+        }
+    }
+
+    private void populateFields(StaffEntity staff) {
+        labelStaffID.setText(staff.getStaffId());
+        txtFullName.setText(staff.getFullName());
+        txtEmail.setText(staff.getUsername());
+        txtAddress.setText(staff.getAddress());
+        txtNIC.setText(staff.getNic());
+        txtContact.setText(staff.getPhoneNumber());
+        txtSalary.setText(staff.getSalary().toString());
+        dateDOB.setValue(staff.getDob());
     }
 }

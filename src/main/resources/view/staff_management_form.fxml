@@ -21,7 +21,8 @@
             <Font name="Poppins Bold" size="72.0" />
          </font>
       </Text>
-      <TableView fx:id="tblStaffTable" layoutX="22.0" layoutY="166.0" prefHeight="375.0" prefWidth="900.0">
+      <TableView fx:id="tblStaffTable" layoutX="22.0" layoutY="166.0" prefHeight="375.0" prefWidth="900.0"
+                 onMouseClicked="#handleMouseClick">
         <columns>
           <TableColumn fx:id="colStaffID" prefWidth="50.0" text="Staff ID" />
           <TableColumn fx:id="colFullName" prefWidth="150.0" text="Full Name" />

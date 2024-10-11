@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import controller.admin.AdminDashboardFormController;
 import controller.staff.StaffDashboardFormController;
+import entity.AdminEntity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import service.custom.AdminService;
 import service.custom.StaffService;
 import service.custom.impl.AdminServiceImpl;
 import service.custom.impl.StaffServiceImpl;
+import util.AdminSession;
 import util.AlertUtil;
 
 import java.io.IOException;
@@ -70,7 +72,9 @@ public class LoginPageController {
 
         if (role.equals("Admin")) {
             if (adminService.validateAdminLogin(username, password)) {
-                loadAdminDashboard(username, event);
+                AdminEntity admin = adminService.findAdminByUsername(username);
+                AdminSession.getInstance().setAdmin(admin);
+                loadAdminDashboard(event);
             } else {
                 if (!adminService.usernameExists(username)) {
                     AlertUtil.showAlert("Login Error", "Username not found", null, Alert.AlertType.ERROR);
@@ -91,13 +95,16 @@ public class LoginPageController {
         }
     }
 
-    private void loadAdminDashboard(String username, ActionEvent event) {
+    private void loadAdminDashboard(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/admin_dashboard_form.fxml"));
             Parent root = loader.load();
 
             AdminDashboardFormController adminDashboardFormController = loader.getController();
-            adminDashboardFormController.setAdminUsername(username);
+            AdminEntity admin = AdminSession.getInstance().getAdmin();
+            if (admin != null) {
+                adminDashboardFormController.setAdminUsername(admin.getUsername());
+            }
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

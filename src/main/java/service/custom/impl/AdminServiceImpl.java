@@ -39,4 +39,9 @@ public class AdminServiceImpl implements AdminService {
     public AdminEntity findAdminById(String adminId) {
         return adminDao.findById(adminId);
     }
+
+    @Override
+    public AdminEntity findAdminByUsername(String username) {
+        return adminDao.findByUsername(username);
+    }
 }

@@ -2,6 +2,7 @@ package controller.admin;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import entity.AdminEntity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +41,7 @@ public class AdminManageAccountFormController {
         txtUsername.setText(username);
         txtContactNumber.setText(contactNumber);
         txtPassword.setText(password);
+        txtRePassword.clear();
     }
 
     @FXML
@@ -47,6 +49,12 @@ public class AdminManageAccountFormController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/admin_dashboard_form.fxml"));
             Parent root = loader.load();
+
+            AdminDashboardFormController adminDashboardFormController = loader.getController();
+            String adminId = txtAdminID.getText();
+            AdminEntity admin = adminService.findAdminById(adminId);
+            adminDashboardFormController.setAdminUsername(admin.getUsername());
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Manage Account - Admin");
@@ -68,12 +76,12 @@ public class AdminManageAccountFormController {
             return;
         }
 
-        boolean isUpdated = adminService.updateAdminDetails(
-                txtAdminID.getText(),
-                txtUsername.getText(),
-                txtPassword.getText(),
-                txtContactNumber.getText()
-        );
+        String adminId = txtAdminID.getText();
+        String username = txtUsername.getText();
+        String contactNumber = txtContactNumber.getText();
+        String password = txtPassword.getText();
+
+        boolean isUpdated = adminService.updateAdminDetails(adminId, username, password, contactNumber);
 
         if (isUpdated) {
             AlertUtil.showAlert("Success", "Admin details updated successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
