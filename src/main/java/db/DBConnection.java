@@ -9,7 +9,12 @@ public class DBConnection {
     private Connection connection;
 
     private DBConnection() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Clothify", "root", "19982001");
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Clothify", "root", "19982001");
+        } catch (SQLException e) {
+            System.err.println("Database connection failed. Please check your credentials or database status.");
+            throw new SQLException("Database connection failed", e);
+        }
     }
 
     public Connection getConnection() {

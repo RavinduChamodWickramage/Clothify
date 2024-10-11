@@ -1,16 +1,23 @@
 package service.custom.impl;
 
 import entity.StaffEntity;
+import repository.DaoFactory;
 import repository.custom.StaffDao;
-import repository.custom.impl.StaffDaoImpl;
+import service.ServiceFactory;
 import service.custom.StaffService;
+import util.DaoType;
+import util.ServiceType;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public class StaffServiceImpl implements StaffService {
-    private final StaffDao staffDao = new StaffDaoImpl();
+    private final StaffDao staffDao;
+
+    public StaffServiceImpl() {
+        this.staffDao = DaoFactory.getInstance().getDaoType(DaoType.STAFF_DAO);
+    }
 
     @Override
     public boolean validateStaffLogin(String username, String password) {
@@ -39,13 +46,8 @@ public class StaffServiceImpl implements StaffService {
     public boolean updateStaff(String staffId, String email, String password, String fullName, String address, String contact,
                                String nic, LocalDate dob,
                                Double salary) {
-        StaffEntity existingStaff = staffDao.findById(staffId);
-        if (existingStaff != null) {
-            password = existingStaff.getPassword();
-            StaffEntity updatedStaff = new StaffEntity(staffId, email, password, fullName, address, contact, nic, dob, salary);
-            return staffDao.update(updatedStaff);
-        }
-        return false;
+        StaffEntity updatedStaff = new StaffEntity(staffId, email, password, fullName, address, contact, nic, dob, salary);
+        return staffDao.update(updatedStaff);
     }
 
     @Override
@@ -71,5 +73,31 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public List<StaffEntity> getAllStaffMembers() {
         return staffDao.findAll();
+    }
+
+    @Override
+    public StaffEntity findStaffByUsername(String username) {
+        return staffDao.findByUsername(username);
+    }
+
+    @Override
+    public boolean updateStaffAccount(String staffId, String username, String password) {
+        StaffEntity existingStaff = staffDao.findById(staffId);
+        if (existingStaff != null) {
+            StaffEntity updatedStaff = new StaffEntity(
+                    staffId,
+                    username,
+                    password,
+                    existingStaff.getFullName(),
+                    existingStaff.getAddress(),
+                    existingStaff.getPhoneNumber(),
+                    existingStaff.getNic(),
+                    existingStaff.getDob(),
+                    existingStaff.getSalary()
+            );
+
+            return staffDao.update(updatedStaff);
+        }
+        return false;
     }
 }

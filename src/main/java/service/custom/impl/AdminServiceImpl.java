@@ -1,12 +1,19 @@
 package service.custom.impl;
 
 import entity.AdminEntity;
+import repository.DaoFactory;
 import repository.custom.AdminDao;
-import repository.custom.impl.AdminDaoImpl;
+import service.ServiceFactory;
 import service.custom.AdminService;
+import util.DaoType;
+import util.ServiceType;
 
 public class AdminServiceImpl implements AdminService {
-    private final AdminDao adminDao = new AdminDaoImpl();
+    private final AdminDao adminDao;
+
+    public AdminServiceImpl() {
+        this.adminDao = DaoFactory.getInstance().getDaoType(DaoType.ADMIN_DAO);
+    }
 
     @Override
     public boolean validateAdminLogin(String username, String password) {

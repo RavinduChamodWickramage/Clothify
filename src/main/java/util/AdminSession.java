@@ -9,10 +9,7 @@ public class AdminSession {
     private AdminSession() {}
 
     public static AdminSession getInstance() {
-        if (instance == null) {
-            instance = new AdminSession();
-        }
-        return instance;
+        return instance == null ? instance = new AdminSession() : instance;
     }
 
     public void setAdmin(AdminEntity admin) {

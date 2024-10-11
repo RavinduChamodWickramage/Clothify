@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import controller.admin.AdminDashboardFormController;
 import controller.staff.StaffDashboardFormController;
 import entity.AdminEntity;
+import entity.StaffEntity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,12 +14,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import service.ServiceFactory;
 import service.custom.AdminService;
 import service.custom.StaffService;
 import service.custom.impl.AdminServiceImpl;
 import service.custom.impl.StaffServiceImpl;
 import util.AdminSession;
 import util.AlertUtil;
+import util.ServiceType;
+import util.StaffSession;
 
 import java.io.IOException;
 
@@ -32,8 +36,8 @@ public class LoginPageController {
     @FXML
     private JFXTextField txtUsername;
 
-    private final AdminService adminService = new AdminServiceImpl();
-    private final StaffService staffService = new StaffServiceImpl();
+    private final AdminService adminService = ServiceFactory.getInstance().getServiceType(ServiceType.ADMIN_SERVICE);
+    private final StaffService staffService = ServiceFactory.getInstance().getServiceType(ServiceType.STAFF_SERVICE);
 
     public void setRole(String role) {
         this.role = role;
@@ -84,7 +88,9 @@ public class LoginPageController {
             }
         } else if (role.equals("Staff")) {
             if (staffService.validateStaffLogin(username, password)) {
-                loadStaffDashboard(username, event);
+                StaffEntity staff = staffService.findStaffByUsername(username);
+                StaffSession.getInstance().setStaff(staff);
+                loadStaffDashboard(event);
             } else {
                 if (!staffService.usernameExists(username)) {
                     AlertUtil.showAlert("Login Error", "Username not found", null, Alert.AlertType.ERROR);
@@ -120,13 +126,16 @@ public class LoginPageController {
         }
     }
 
-    private void loadStaffDashboard(String username, ActionEvent event) {
+    private void loadStaffDashboard(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/staff_dashboard_form.fxml"));
             Parent root = loader.load();
 
             StaffDashboardFormController staffDashboardFormController = loader.getController();
-            staffDashboardFormController.setStaffUsername(username);
+            StaffEntity staff = StaffSession.getInstance().getStaff();
+            if (staff != null) {
+                staffDashboardFormController.setStaffUsername(staff.getUsername());
+            }
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

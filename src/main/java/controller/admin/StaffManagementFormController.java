@@ -21,10 +21,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import service.ServiceFactory;
 import service.custom.StaffService;
 import service.custom.impl.StaffServiceImpl;
 import util.AdminSession;
 import util.AlertUtil;
+import util.ServiceType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -84,7 +86,7 @@ public class StaffManagementFormController implements Initializable {
     @FXML
     private TextField txtSearchField;
 
-    private final StaffService staffService = new StaffServiceImpl();
+    private final StaffService staffService = ServiceFactory.getInstance().getServiceType(ServiceType.STAFF_SERVICE);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -128,7 +130,8 @@ public class StaffManagementFormController implements Initializable {
 
         if (isAdded) {
             AlertUtil.showAlert("Success", "Staff member added successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
-
+            clearTextFields();
+            loadStaffTable();
         } else {
             AlertUtil.showAlert("Error", "Failed to add staff member", null, javafx.scene.control.Alert.AlertType.ERROR);
         }
@@ -141,6 +144,8 @@ public class StaffManagementFormController implements Initializable {
 
         if (isDeleted) {
             AlertUtil.showAlert("Success", "Staff member deleted successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
+            clearTextFields();
+            loadStaffTable();
         } else {
             AlertUtil.showAlert("Error", "Failed to delete staff member", null, javafx.scene.control.Alert.AlertType.ERROR);
         }

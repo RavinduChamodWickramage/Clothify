@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AdminDaoImpl implements AdminDao {
     @Override
@@ -30,6 +31,11 @@ public class AdminDaoImpl implements AdminDao {
     }
 
     @Override
+    public boolean add(AdminEntity entity) {
+        return false;
+    }
+
+    @Override
     public boolean update(AdminEntity admin) {
         try {
             String sql = "UPDATE Admin SET username = ?, phoneNumber = ?, password = ? WHERE adminId = ?";
@@ -38,6 +44,11 @@ public class AdminDaoImpl implements AdminDao {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean delete(String id) {
+        return false;
     }
 
     @Override
@@ -61,5 +72,10 @@ public class AdminDaoImpl implements AdminDao {
             e.printStackTrace();
         }
         return admin;
+    }
+
+    @Override
+    public List<AdminEntity> findAll() {
+        return List.of();
     }
 }

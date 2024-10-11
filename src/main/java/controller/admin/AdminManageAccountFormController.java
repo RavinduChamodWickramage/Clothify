@@ -11,9 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import service.ServiceFactory;
 import service.custom.AdminService;
 import service.custom.impl.AdminServiceImpl;
+import util.AdminSession;
 import util.AlertUtil;
+import util.ServiceType;
 
 import java.io.IOException;
 
@@ -34,7 +37,7 @@ public class AdminManageAccountFormController {
     @FXML
     private JFXTextField txtUsername;
 
-    private final AdminService adminService = new AdminServiceImpl();
+    private final AdminService adminService = ServiceFactory.getInstance().getServiceType(ServiceType.ADMIN_SERVICE);
 
     public void setAdminDetails(String adminId, String username, String contactNumber, String password) {
         txtAdminID.setText(adminId);
@@ -51,8 +54,7 @@ public class AdminManageAccountFormController {
             Parent root = loader.load();
 
             AdminDashboardFormController adminDashboardFormController = loader.getController();
-            String adminId = txtAdminID.getText();
-            AdminEntity admin = adminService.findAdminById(adminId);
+            AdminEntity admin = AdminSession.getInstance().getAdmin();
             adminDashboardFormController.setAdminUsername(admin.getUsername());
 
             Stage stage = new Stage();
@@ -84,7 +86,12 @@ public class AdminManageAccountFormController {
         boolean isUpdated = adminService.updateAdminDetails(adminId, username, password, contactNumber);
 
         if (isUpdated) {
+            AdminEntity updatedAdmin = new AdminEntity(adminId, username, password, contactNumber);
+            AdminSession.getInstance().setAdmin(updatedAdmin);
+
             AlertUtil.showAlert("Success", "Admin details updated successfully", null, javafx.scene.control.Alert.AlertType.INFORMATION);
+
+            btnDashboardOnAction(event);
         } else {
             AlertUtil.showAlert("Update Failed", "Could not update admin details", null, javafx.scene.control.Alert.AlertType.ERROR);
         }
