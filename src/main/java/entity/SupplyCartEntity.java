@@ -1,7 +1,6 @@
 package entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +11,17 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class ProductEntity {
-    @Id
+public class SupplyCartEntity {
     private String productId;
+    private String supplierId;
     private String name;
     private String category;
     private String size;
-    private BigDecimal unitPrice;
-    private Integer qtyOnHand;
+    private BigDecimal unitCost;
+    private int quantity;
+    private BigDecimal total;
+
+    public void calculateTotal() {
+        this.total = this.unitCost.multiply(BigDecimal.valueOf(quantity));
+    }
 }

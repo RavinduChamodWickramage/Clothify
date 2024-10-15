@@ -64,6 +64,8 @@ public class StaffManageAccountFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        if (!validateFields()) return;
+
         if (!txtPassword.getText().equals(txtRePassword.getText())) {
             AlertUtil.showAlert("Password Mismatch", "Passwords do not match.", "Please ensure both password fields match.", javafx.scene.control.Alert.AlertType.ERROR);
             return;
@@ -98,5 +100,27 @@ public class StaffManageAccountFormController {
         txtUsername.setText(username);
         txtPassword.setText(password);
         txtRePassword.clear();
+    }
+
+    private boolean validateFields() {
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Username and Password cannot be empty.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (username.length() < 3 || username.length() > 20) {
+            AlertUtil.showAlert("Validation Error", "Username must be between 3 and 20 characters.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (password.length() < 8 || !password.matches(".*[A-Z].*") || !password.matches(".*[0-9].*")) {
+            AlertUtil.showAlert("Validation Error", "Password must be at least 8 characters long and contain at least one uppercase letter and one number.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
     }
 }

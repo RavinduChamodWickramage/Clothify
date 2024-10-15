@@ -46,7 +46,14 @@ public class StaffServiceImpl implements StaffService {
     public boolean updateStaff(String staffId, String email, String password, String fullName, String address, String contact,
                                String nic, LocalDate dob,
                                Double salary) {
-        StaffEntity updatedStaff = new StaffEntity(staffId, email, password, fullName, address, contact, nic, dob, salary);
+        StaffEntity existingStaff = staffDao.findById(staffId);
+        if (existingStaff == null) {
+            return false;
+        }
+        String currentPassword = existingStaff.getPassword();
+        StaffEntity updatedStaff = new StaffEntity(
+                staffId, email, currentPassword, fullName, address, contact, nic, dob, salary
+        );
         return staffDao.update(updatedStaff);
     }
 

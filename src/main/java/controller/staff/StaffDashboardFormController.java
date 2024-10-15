@@ -101,8 +101,9 @@ public class StaffDashboardFormController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/product_management_form.fxml"));
             Parent root = loader.load();
 
-            ProductManagementFormController productController = loader.getController();
-            productController.setRole("Staff");
+            ProductManagementFormController controller = loader.getController();
+            StaffEntity staff = StaffSession.getInstance().getStaff();
+            controller.setRoleAndUser("Staff", staff.getStaffId());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -124,8 +125,9 @@ public class StaffDashboardFormController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/supplier_management_form.fxml"));
             Parent root = loader.load();
 
-            SupplierManagementFormController supplierController = loader.getController();
-            supplierController.setRole("Staff");
+            SupplierManagementFormController controller = loader.getController();
+            StaffEntity staff = StaffSession.getInstance().getStaff();
+            controller.setRoleAndUser("Staff", staff.getStaffId());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -147,8 +149,9 @@ public class StaffDashboardFormController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/supply_management_form.fxml"));
             Parent root = loader.load();
 
-            SupplyManagementFormController supplyController = loader.getController();
-            supplyController.setRole("Staff");
+            SupplyManagementFormController controller = loader.getController();
+            StaffEntity staff = StaffSession.getInstance().getStaff();
+            controller.setRoleAndUser("Staff", staff.getStaffId());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

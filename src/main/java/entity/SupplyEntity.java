@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,8 +16,8 @@ import java.time.LocalDateTime;
 public class SupplyEntity {
     @EmbeddedId
     private SupplyId id;
-    private Double unitCost;
+    private BigDecimal unitCost;
     private Integer qty;
-    private Double total;
+    private BigDecimal total;
     private LocalDateTime dateAndTime;
 }

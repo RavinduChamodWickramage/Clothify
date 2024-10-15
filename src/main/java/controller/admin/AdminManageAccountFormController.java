@@ -13,7 +13,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import service.ServiceFactory;
 import service.custom.AdminService;
-import service.custom.impl.AdminServiceImpl;
 import util.AdminSession;
 import util.AlertUtil;
 import util.ServiceType;
@@ -73,14 +72,26 @@ public class AdminManageAccountFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        if (txtUsername.getText().isEmpty() || txtContactNumber.getText().isEmpty() ||
+                txtPassword.getText().isEmpty() || txtRePassword.getText().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "All fields must be filled out.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return;
+        }
+
         if (!txtPassword.getText().equals(txtRePassword.getText())) {
             AlertUtil.showAlert("Password Mismatch", "Passwords do not match.", "Please ensure both password fields match.", javafx.scene.control.Alert.AlertType.ERROR);
             return;
         }
 
+        String contactNumber = txtContactNumber.getText();
+        if (!contactNumber.matches("^(\\+94|0)?7\\d{9}$")) {
+            AlertUtil.showAlert("Validation Error", "Contact number must be a valid Sri Lankan mobile number.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return;
+        }
+
         String adminId = txtAdminID.getText();
         String username = txtUsername.getText();
-        String contactNumber = txtContactNumber.getText();
+
         String password = txtPassword.getText();
 
         boolean isUpdated = adminService.updateAdminDetails(adminId, username, password, contactNumber);

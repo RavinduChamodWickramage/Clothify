@@ -11,16 +11,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierManagementFormController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierManagementFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#14222d" height="125.0" stroke="BLACK" strokeType="INSIDE" width="1000.0" />
-      <Text fill="WHITE" layoutX="153.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff Management" textAlignment="CENTER">
+      <Text fill="WHITE" layoutX="86.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supplier Management" textAlignment="CENTER">
          <font>
             <Font name="Poppins Bold" size="72.0" />
          </font>
       </Text>
-      <TableView fx:id="tblSupplierTable" layoutX="14.0" layoutY="167.0" prefHeight="375.0" prefWidth="700.0">
+      <TableView fx:id="tblSupplierTable" layoutX="14.0" layoutY="167.0" onMouseClicked="#handleMouseClick" prefHeight="375.0" prefWidth="700.0">
          <columns>
             <TableColumn fx:id="colSupplierID" prefWidth="75.0" text="Supplier ID" />
             <TableColumn fx:id="colFullName" prefWidth="150.0" text="Full Name" />
@@ -50,7 +49,7 @@
             <Font name="Poppins Regular" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="labelStaffID" layoutX="806.0" layoutY="167.0" text="SUP0001">
+      <Label fx:id="labelSupplierID" layoutX="806.0" layoutY="167.0" text="SUP0001">
          <font>
             <Font name="Poppins Bold" size="12.0" />
          </font>

@@ -8,9 +8,13 @@ public class DBConnection {
     private static DBConnection instance;
     private Connection connection;
 
+    private static final String URL = "jdbc:mysql://localhost:3306/Clothify?autoReconnect=true&useSSL=false";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "19982001";
+
     private DBConnection() throws SQLException {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Clothify", "root", "19982001");
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             System.err.println("Database connection failed. Please check your credentials or database status.");
             throw new SQLException("Database connection failed", e);
@@ -18,10 +22,17 @@ public class DBConnection {
     }
 
     public Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return connection;
     }
 
-    public static DBConnection getInstance() throws SQLException{
+    public static synchronized DBConnection getInstance() throws SQLException{
         return instance == null ? instance = new DBConnection() : instance;
     }
 }

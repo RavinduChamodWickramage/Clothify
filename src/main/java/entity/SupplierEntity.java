@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class SupplierEntity {
     @Id
     private String supplierId;
-    private String supplierName;
+    private String name;
     private String company;
     private String email;
     private String phoneNumber;

@@ -23,7 +23,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import service.ServiceFactory;
 import service.custom.StaffService;
-import service.custom.impl.StaffServiceImpl;
 import util.AdminSession;
 import util.AlertUtil;
 import util.ServiceType;
@@ -116,6 +115,8 @@ public class StaffManagementFormController implements Initializable {
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
+        if (!validateFields()) return;
+
         String staffId = labelStaffID.getText();
         String email = txtEmail.getText();
         String password = txtNIC.getText();
@@ -153,7 +154,12 @@ public class StaffManagementFormController implements Initializable {
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
-        String staffId = txtSearchField.getText();
+        String staffId = txtSearchField.getText().trim();
+        if (staffId.isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Please enter a Staff ID to search.", null, javafx.scene.control.Alert.AlertType.WARNING);
+            return;
+        }
+
         StaffEntity staff = staffService.findStaffById(staffId);
 
         if (staff != null) {
@@ -172,6 +178,8 @@ public class StaffManagementFormController implements Initializable {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        if (!validateFields()) return;
+
         String staffId = labelStaffID.getText();
         String fullName = txtFullName.getText();
         String email = txtEmail.getText();
@@ -254,4 +262,56 @@ public class StaffManagementFormController implements Initializable {
         txtSalary.setText(staff.getSalary().toString());
         dateDOB.setValue(staff.getDob());
     }
+
+    private boolean validateFields() {
+        String email = txtEmail.getText();
+        String contact = txtContact.getText();
+        String salaryText = txtSalary.getText();
+        String nic = txtNIC.getText();
+        LocalDate dob = dateDOB.getValue();
+
+        String contactRegex = "^07[0-9]{8}$";
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        String nicRegex = "^[0-9]{9}[vV]$|^[0-9]{12}$";
+
+        if (txtFullName.getText().isEmpty() || email.isEmpty() || txtAddress.getText().isEmpty() ||
+                nic.isEmpty() || contact.isEmpty() || salaryText.isEmpty() || dob == null) {
+            AlertUtil.showAlert("Validation Error", "Please fill in all fields before proceeding.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (!email.matches(emailRegex)) {
+            AlertUtil.showAlert("Validation Error", "Please enter a valid email address.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (!nic.matches(nicRegex)) {
+            AlertUtil.showAlert("Validation Error", "NIC must be 9 digits with 'v' or 12 digits.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (!contact.matches(contactRegex)) {
+            AlertUtil.showAlert("Validation Error", "Contact number must start with '07' and be 10 digits long.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (dob.isAfter(LocalDate.now())) {
+            AlertUtil.showAlert("Validation Error", "Date of Birth cannot be in the future.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        try {
+            double salary = Double.parseDouble(salaryText);
+            if (salary < 0) {
+                AlertUtil.showAlert("Validation Error", "Salary must be a non-negative number.", null, javafx.scene.control.Alert.AlertType.ERROR);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            AlertUtil.showAlert("Validation Error", "Salary must be a valid number.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
 }
