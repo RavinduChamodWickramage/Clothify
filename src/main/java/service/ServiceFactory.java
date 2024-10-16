@@ -21,6 +21,7 @@ public class ServiceFactory {
             case STAFF_SERVICE:return (T) new StaffServiceImpl();
             case SUPPLIER_SERVICE:return (T) new SupplierServiceImpl();
             case SUPPLY_SERVICE:return (T) new SupplyServiceImpl();
+            case ORDER_DETAIL_SERVICE:return (T) new OrderDetailServiceImpl();
         }
         return null;
     }

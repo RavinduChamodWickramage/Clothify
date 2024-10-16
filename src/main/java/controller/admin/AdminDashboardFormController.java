@@ -1,5 +1,6 @@
 package controller.admin;
 
+import com.jfoenix.controls.JFXButton;
 import controller.order.OrderManagementFormController;
 import controller.product.ProductManagementFormController;
 import controller.supplier.SupplierManagementFormController;
@@ -8,20 +9,22 @@ import entity.AdminEntity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import service.ServiceFactory;
-import service.custom.AdminService;
-import service.custom.impl.AdminServiceImpl;
 import util.AdminSession;
-import util.ServiceType;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AdminDashboardFormController {
+public class AdminDashboardFormController implements Initializable {
+
+    @FXML
+    private JFXButton btnReports;
 
     @FXML
     private Text txtAdminUsername;
@@ -79,8 +82,9 @@ public class AdminDashboardFormController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/order_management_form.fxml"));
             Parent root = loader.load();
 
-            OrderManagementFormController orderController = loader.getController();
-            orderController.setRole("Admin");
+            OrderManagementFormController controller = loader.getController();
+            AdminEntity admin = AdminSession.getInstance().getAdmin();
+            controller.setRoleAndUser("Admin", admin.getAdminId());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -197,4 +201,8 @@ public class AdminDashboardFormController {
 
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnReports.setVisible(false);
+    }
 }

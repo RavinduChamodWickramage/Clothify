@@ -12,8 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.order.OrderManagementFormController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.order.OrderManagementFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#14222d" height="100.0" stroke="BLACK" strokeType="INSIDE" width="1000.0" />
       <Text fill="WHITE" layoutX="135.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Management" textAlignment="CENTER">
@@ -21,7 +20,7 @@
             <Font name="Poppins Bold" size="72.0" />
          </font>
       </Text>
-      <TableView fx:id="tblCart" layoutX="14.0" layoutY="138.0" prefHeight="200.0" prefWidth="700.0">
+      <TableView fx:id="tblCart" layoutX="14.0" layoutY="138.0" prefHeight="200.0" prefWidth="700.0" onMouseClicked="#handleMouseClick">
          <columns>
             <TableColumn fx:id="colCartProductID" prefWidth="75.0" text="Product ID" />
             <TableColumn fx:id="colCartProduct" prefWidth="125.0" text="Product" />
@@ -44,12 +43,12 @@
          </font>
       </JFXButton>
       <TextField fx:id="txtSearchField" layoutX="715.0" layoutY="107.0" prefHeight="26.0" prefWidth="180.0" />
-      <JFXButton buttonType="RAISED" layoutX="903.0" layoutY="107.0" onAction="#btnSearchOnAction" prefHeight="20.0" prefWidth="75.0" style="-fx-background-color: #14222D; -fx-background-radius: 100;" text="Search" textAlignment="CENTER" textFill="WHITE">
+      <JFXButton fx:id="btnSearch" buttonType="RAISED" layoutX="903.0" layoutY="107.0" onAction="#btnSearchOnAction" prefHeight="20.0" prefWidth="75.0" style="-fx-background-color: #14222D; -fx-background-radius: 100;" text="Search" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Poppins Bold" size="12.0" />
          </font>
       </JFXButton>
-      <Label layoutX="726.0" layoutY="165.0" text="Product ID :">
+      <Label layoutX="726.0" layoutY="170.0" text="Product ID :">
          <font>
             <Font name="Poppins Regular" size="12.0" />
          </font>
@@ -123,13 +122,13 @@
             <Font name="Poppins Bold" size="12.0" />
          </font>
       </JFXButton>
-      <Label layoutX="848.0" layoutY="138.0" text="Staff ID :">
+      <Label layoutX="840.0" layoutY="138.0" text="Staff ID :">
          <font>
             <Font name="Poppins Regular" size="12.0" />
          </font>
       </Label>
-      <JFXComboBox fx:id="cmbProductID" layoutX="803.0" layoutY="156.0" prefHeight="10.0" prefWidth="70.0" />
-      <JFXComboBox fx:id="cmbSupplyID" layoutX="905.0" layoutY="134.0" prefHeight="10.0" prefWidth="70.0" />
+      <JFXComboBox fx:id="cmbProductID" layoutX="803.0" layoutY="161.0" prefHeight="10.0" prefWidth="100.0" />
+      <JFXComboBox fx:id="cmbStaffID" layoutX="892.0" layoutY="134.0" prefHeight="10.0" prefWidth="100.0" />
       <Label layoutX="725.0" layoutY="138.0" text="Order ID :">
          <font>
             <Font name="Poppins Regular" size="12.0" />

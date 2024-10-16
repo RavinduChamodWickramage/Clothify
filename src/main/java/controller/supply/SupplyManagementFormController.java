@@ -286,24 +286,17 @@ public class SupplyManagementFormController implements Initializable {
 
     @FXML
     void btnAddSupplyCartOnAction(ActionEvent event) {
+        if (!validateInputFields()) {
+            return;
+        }
+
         String productId = cmbProductID.getValue();
         String supplierId = cmbSupplierID.getValue();
         String name = txtName.getText();
         String category = cmbCategory.getValue();
         String size = cmbSize.getValue();
-        String unitCostText = txtUnitCost.getText();
-        String qtyText = txtQty.getText();
-
-        int qty;
-        BigDecimal unitCost;
-
-        try {
-            qty = Integer.parseInt(qtyText);
-            unitCost = new BigDecimal(unitCostText);
-        } catch (NumberFormatException e) {
-            AlertUtil.showAlert("Validation Error", "Quantity and Unit Cost must be valid numbers.", null, javafx.scene.control.Alert.AlertType.ERROR);
-            return;
-        }
+        BigDecimal unitCost = new BigDecimal(txtUnitCost.getText());
+        int qty = Integer.parseInt(txtQty.getText());
 
         SupplyCartEntity supplyCartItem = new SupplyCartEntity();
         supplyCartItem.setProductId(productId);
@@ -410,6 +403,10 @@ public class SupplyManagementFormController implements Initializable {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        if (!validateInputFields()) {
+            return;
+        }
+
         SupplyEntity selectedSupply = tblSupplyTable.getSelectionModel().getSelectedItem();
 
         if (selectedSupply == null) {
@@ -419,22 +416,8 @@ public class SupplyManagementFormController implements Initializable {
 
         String productId = cmbProductID.getValue();
         String supplierId = cmbSupplierID.getValue();
-        String name = txtName.getText();
-        String category = cmbCategory.getValue();
-        String size = cmbSize.getValue();
-        String unitCostText = txtUnitCost.getText();
-        String qtyText = txtQty.getText();
-
-        int qty;
-        BigDecimal unitCost;
-
-        try {
-            qty = Integer.parseInt(qtyText);
-            unitCost = new BigDecimal(unitCostText);
-        } catch (NumberFormatException e) {
-            AlertUtil.showAlert("Validation Error", "Quantity and Unit Cost must be valid numbers.", null, javafx.scene.control.Alert.AlertType.ERROR);
-            return;
-        }
+        BigDecimal unitCost = new BigDecimal(txtUnitCost.getText());
+        int qty = Integer.parseInt(txtQty.getText());
 
         SupplyEntity updatedSupply = new SupplyEntity(
                 new SupplyId(selectedSupply.getId().getSupplyId(), productId, supplierId),
@@ -568,4 +551,66 @@ public class SupplyManagementFormController implements Initializable {
             }
         }
     }
+
+    private boolean validateInputFields() {
+        if (cmbProductID.getValue() == null || cmbProductID.getValue().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Product ID is required.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (cmbSupplierID.getValue() == null || cmbSupplierID.getValue().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Supplier ID is required.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (txtName.getText() == null || txtName.getText().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Product Name is required.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (cmbCategory.getValue() == null || cmbCategory.getValue().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Category is required.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (cmbSize.getValue() == null || cmbSize.getValue().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Size is required.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (txtUnitCost.getText() == null || txtUnitCost.getText().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Unit Cost is required.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        if (txtQty.getText() == null || txtQty.getText().isEmpty()) {
+            AlertUtil.showAlert("Validation Error", "Quantity is required.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        try {
+            int qty = Integer.parseInt(txtQty.getText());
+            if (qty <= 0) {
+                AlertUtil.showAlert("Validation Error", "Quantity must be a positive integer.", null, javafx.scene.control.Alert.AlertType.ERROR);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            AlertUtil.showAlert("Validation Error", "Quantity must be a valid integer.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        try {
+            BigDecimal unitCost = new BigDecimal(txtUnitCost.getText());
+            if (unitCost.compareTo(BigDecimal.ZERO) <= 0) {
+                AlertUtil.showAlert("Validation Error", "Unit Cost must be a positive number.", null, javafx.scene.control.Alert.AlertType.ERROR);
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            AlertUtil.showAlert("Validation Error", "Unit Cost must be a valid number.", null, javafx.scene.control.Alert.AlertType.ERROR);
+            return false;
+        }
+
+        return true;
+    }
+
 }

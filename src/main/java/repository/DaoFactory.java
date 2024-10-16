@@ -21,6 +21,7 @@ public class DaoFactory {
             case STAFF_DAO:return (T) new StaffDaoImpl();
             case SUPPLIER_DAO:return (T) new SupplierDaoImpl();
             case SUPPLY_DAO:return (T) new SupplyDaoImpl();
+            case ORDER_DETAIL_DAO:return (T) new OrderDetailDaoImpl();
         }
         return null;
     }

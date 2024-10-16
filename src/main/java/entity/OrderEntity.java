@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,13 +18,25 @@ import java.util.List;
 public class OrderEntity {
     @Id
     private String orderId;
-    private Double netTotal;
-    private Double totalDiscount;
+    private BigDecimal netTotal;
+    private BigDecimal totalDiscount;
     private LocalDateTime dateAndTime;
     private String staffId;
     private String customerEmail;
     private String customerPhoneNumber;
 
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "order")
     private List<OrderDetailEntity> orderDetails;
+
+    public OrderEntity(String orderId, BigDecimal netTotal, BigDecimal totalDiscount,
+                       LocalDateTime dateAndTime, String staffId,
+                       String customerEmail, String customerPhoneNumber) {
+        this.orderId = orderId;
+        this.netTotal = netTotal;
+        this.totalDiscount = totalDiscount;
+        this.dateAndTime = dateAndTime;
+        this.staffId = staffId;
+        this.customerEmail = customerEmail;
+        this.customerPhoneNumber = customerPhoneNumber;
+    }
 }

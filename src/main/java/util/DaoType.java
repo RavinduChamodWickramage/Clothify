@@ -6,5 +6,6 @@ public enum DaoType {
     PRODUCT_DAO,
     SUPPLIER_DAO,
     ORDER_DAO,
-    SUPPLY_DAO;
+    SUPPLY_DAO,
+    ORDER_DETAIL_DAO;
 }

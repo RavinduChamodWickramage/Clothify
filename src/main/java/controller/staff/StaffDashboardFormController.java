@@ -78,8 +78,9 @@ public class StaffDashboardFormController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../../view/order_management_form.fxml"));
             Parent root = loader.load();
 
-            OrderManagementFormController orderController = loader.getController();
-            orderController.setRole("Staff");
+            OrderManagementFormController controller = loader.getController();
+            StaffEntity staff = StaffSession.getInstance().getStaff();
+            controller.setRoleAndUser("Staff", staff.getStaffId());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
