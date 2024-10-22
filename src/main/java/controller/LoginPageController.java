@@ -17,8 +17,6 @@ import javafx.stage.Stage;
 import service.ServiceFactory;
 import service.custom.AdminService;
 import service.custom.StaffService;
-import service.custom.impl.AdminServiceImpl;
-import service.custom.impl.StaffServiceImpl;
 import util.AdminSession;
 import util.AlertUtil;
 import util.ServiceType;
@@ -71,8 +69,8 @@ public class LoginPageController {
 
     @FXML
     void btnLoginOnAction(ActionEvent event) {
-        String username = txtUsername.getText();
-        String password = txtPassword.getText();
+        String username = txtUsername.getText().trim();
+        String password = txtPassword.getText().trim();
 
         if (role.equals("Admin")) {
             if (adminService.validateAdminLogin(username, password)) {

@@ -1,8 +1,6 @@
 package entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,14 +13,29 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "orders")
 public class OrderEntity {
+
     @Id
+    @Column(nullable = false, length = 10)
     private String orderId;
+
+    @Column(nullable = false)
     private BigDecimal netTotal;
+
+    @Column(nullable = false)
     private BigDecimal totalDiscount;
+
+    @Column(nullable = false)
     private LocalDateTime dateAndTime;
+
+    @Column(nullable = false, length = 10)
     private String staffId;
+
+    @Column(nullable = false, length = 100)
     private String customerEmail;
+
+    @Column(length = 10)
     private String customerPhoneNumber;
 
     @OneToMany(mappedBy = "order")

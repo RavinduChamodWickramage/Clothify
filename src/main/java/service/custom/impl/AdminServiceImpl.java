@@ -3,10 +3,8 @@ package service.custom.impl;
 import entity.AdminEntity;
 import repository.DaoFactory;
 import repository.custom.AdminDao;
-import service.ServiceFactory;
 import service.custom.AdminService;
 import util.DaoType;
-import util.ServiceType;
 
 public class AdminServiceImpl implements AdminService {
     private final AdminDao adminDao;

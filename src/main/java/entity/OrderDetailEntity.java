@@ -1,8 +1,6 @@
 package entity;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,12 +11,20 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "orderdetail")
 public class OrderDetailEntity {
+
     @EmbeddedId
     private OrderDetailId id;
+
+    @Column(nullable = false)
     private BigDecimal unitPrice;
+
+    @Column(nullable = false)
     private Integer qty;
+
     private BigDecimal discount;
+
     private BigDecimal total;
 
     @ManyToOne

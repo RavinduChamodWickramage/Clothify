@@ -3,10 +3,9 @@ package service.custom.impl;
 import entity.StaffEntity;
 import repository.DaoFactory;
 import repository.custom.StaffDao;
-import service.ServiceFactory;
 import service.custom.StaffService;
 import util.DaoType;
-import util.ServiceType;
+import util.PasswordUtil;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,10 +22,13 @@ public class StaffServiceImpl implements StaffService {
     public boolean validateStaffLogin(String username, String password) {
         StaffEntity staff = staffDao.findByUsername(username);
         if (staff != null) {
-            return staff.getPassword().equals(password);
+            System.out.println("Entered Password: " + password);
+            System.out.println("Stored Hashed Password: " + staff.getPassword());
+            return PasswordUtil.verifyPassword(password, staff.getPassword());
         }
         return false;
     }
+
 
     @Override
     public boolean usernameExists(String username) {
@@ -36,11 +38,12 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public boolean addStaff(String staffId, String email, String password, String fullName, String address, String contact,
-                            String nic, LocalDate dob,
-                            Double salary) {
-        StaffEntity staff = new StaffEntity(staffId, email, password, fullName, address, contact, nic, dob, salary);
+                            String nic, LocalDate dob, Double salary) {
+        String hashedPassword = PasswordUtil.hashPassword(password);
+        StaffEntity staff = new StaffEntity(staffId, email, hashedPassword, fullName, address, contact, nic, dob, salary);
         return staffDao.add(staff);
     }
+
 
     @Override
     public boolean updateStaff(String staffId, String email, String password, String fullName, String address, String contact,
@@ -50,9 +53,9 @@ public class StaffServiceImpl implements StaffService {
         if (existingStaff == null) {
             return false;
         }
-        String currentPassword = existingStaff.getPassword();
+        String hashedPassword = password != null && !password.isEmpty() ? PasswordUtil.hashPassword(password) : existingStaff.getPassword();
         StaffEntity updatedStaff = new StaffEntity(
-                staffId, email, currentPassword, fullName, address, contact, nic, dob, salary
+                staffId, email, hashedPassword, fullName, address, contact, nic, dob, salary
         );
         return staffDao.update(updatedStaff);
     }
@@ -91,10 +94,11 @@ public class StaffServiceImpl implements StaffService {
     public boolean updateStaffAccount(String staffId, String username, String password) {
         StaffEntity existingStaff = staffDao.findById(staffId);
         if (existingStaff != null) {
+            String hashedPassword = password != null && !password.isEmpty() ? PasswordUtil.hashPassword(password) : existingStaff.getPassword();
             StaffEntity updatedStaff = new StaffEntity(
                     staffId,
                     username,
-                    password,
+                    hashedPassword,
                     existingStaff.getFullName(),
                     existingStaff.getAddress(),
                     existingStaff.getPhoneNumber(),
