@@ -5,41 +5,41 @@ Clothify can be packaged into an executable .exe file using Launch4j for easier 
 
 # Features  
 
-**Inventory Management**: Manage products, categories, and stock levels.
-**Order Management**: Create, update, delete, and view customer orders.
-**Staff Management**: Add, update, and view staff details.
-**Supplier Management**: Manage suppliers for the products.
-**User Authentication**: Admin and staff login using secure authentication.
-**Reporting**: Generate various reports for sales, inventory, and suppliers.
-**POS System**: Process orders, calculate totals, and apply discounts.
-**Modern UI**: A JavaFX-based UI using JFoenix for sleek design.
-**Encryption**: Secure user credentials with encryption.
-**Database**: Use MySQL for persistent data storage.
-**Packaging**: Package the app into an .exe using Launch4j for easy distribution.  
+**Inventory Management**: Manage products, categories, and stock levels.  
+**Order Management**: Create, update, delete, and view customer orders.  
+**Staff Management**: Add, update, and view staff details.  
+**Supplier Management**: Manage suppliers for the products.  
+**User Authentication**: Admin and staff login using secure authentication.  
+**Reporting**: Generate various reports for sales, inventory, and suppliers.  
+**POS System**: Process orders, calculate totals, and apply discounts.  
+**Modern UI**: A JavaFX-based UI using JFoenix for sleek design.  
+**Encryption**: Secure user credentials with encryption.  
+**Database**: Use MySQL for persistent data storage.  
+**Packaging**: Package the app into an .exe using Launch4j for easy distribution.    
 
 # Tech Stack  
 
-**Java 11+**
-**Spring Boot** (for the backend logic)
-**Hibernate** (for ORM and database interaction)
-**MySQL** (for the database)
-**JavaFX** (for the frontend UI)
-**JFoenix** (for Material Design UI components)
-**Launch4j** (for packaging as an .exe file)
-**Maven** (for dependency management and building)
-**JasperReports** (for report generation)
-**ModelMapper** (for object mapping)
-**Lombok** (for reducing boilerplate code)  
+**Java 11+**  
+**Spring Boot** (for the backend logic)  
+**Hibernate** (for ORM and database interaction)  
+**MySQL** (for the database)  
+**JavaFX** (for the frontend UI)  
+**JFoenix** (for Material Design UI components)  
+**Launch4j** (for packaging as an .exe file)  
+**Maven** (for dependency management and building)  
+**JasperReports** (for report generation)  
+**ModelMapper** (for object mapping)  
+**Lombok** (for reducing boilerplate code)    
 
 # Prerequisites  
 
 Before you start, ensure you have the following installed:
 
-**Java 11+** (preferably JDK 11)
-**Maven** (for building the project)
-**MySQL** (for the database)
-**IDE** (like IntelliJ IDEA or Eclipse)
-**Launch4j** (for packaging the project as .exe file)  
+**Java 11+** (preferably JDK 11)  
+**Maven** (for building the project)  
+**MySQL** (for the database)  
+**IDE** (like IntelliJ IDEA or Eclipse)  
+**Launch4j** (for packaging the project as .exe file)    
 
 # Setup and Installation  
 
@@ -50,9 +50,9 @@ First, clone this repository to your local machine:
 
 # Import into IDE  
 
-Open your IDE (IntelliJ IDEA, Eclipse, etc.)
-Import the project as a Maven project
-Set up JDK 11+ if it’s not already set  
+Open your IDE (IntelliJ IDEA, Eclipse, etc.)  
+Import the project as a Maven project  
+Set up JDK 11+ if it’s not already set    
 
 # Database Configuration  
 
@@ -155,10 +155,10 @@ spring.jpa.hibernate.ddl-auto=update
 
 # Running the Application  
 
-Using IDE:
-Run the ClothifyApplication.java class (Spring Boot application) from your IDE. This will start the application.
-Using Maven Command:
-Alternatively, you can use Maven to build and run the application:
+Using IDE:  
+Run the ClothifyApplication.java class (Spring Boot application) from your IDE. This will start the application.  
+Using Maven Command:  
+Alternatively, you can use Maven to build and run the application:  
 ```
 mvn clean install
 mvn spring-boot:run
@@ -166,7 +166,7 @@ mvn spring-boot:run
 
 # Acknowledgments  
 
-**JasperReports** for report generation.
-**Hibernate** for ORM and database interaction.
-**JavaFX** and **JFoenix** for the modern UI design.
-**Spring Boot** for creating the backend.
+**JasperReports** for report generation.  
+**Hibernate** for ORM and database interaction.  
+**JavaFX** and **JFoenix** for the modern UI design.  
+**Spring Boot** for creating the backend.  
